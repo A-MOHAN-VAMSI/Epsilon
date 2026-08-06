@@ -1,0 +1,91 @@
+:root {
+  /* ===========================
+     COLORS
+  =========================== */
+
+  --color-background: #090d0a;
+  --color-surface: #101510;
+  --color-card: #121812;
+
+  --color-primary: #c7ff24;
+  --color-secondary: #7c5cff;
+  --color-accent: #00d4ff;
+
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+
+  --color-text: #f1f3ee;
+  --color-text-muted: #a6ada4;
+
+  --color-border: rgba(223, 235, 221, 0.13);
+
+  /* ===========================
+     TYPOGRAPHY
+  =========================== */
+
+  --font-sans: ui-rounded, "Aptos", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 3rem;
+  --text-5xl: 4rem;
+
+  /* ===========================
+     SPACING
+  =========================== */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ===========================
+     BORDER RADIUS
+  =========================== */
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 999px;
+
+  /* ===========================
+     SHADOWS
+  =========================== */
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.35);
+
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+  /* ===========================
+     TRANSITIONS
+  =========================== */
+
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.35s ease;
+  --transition-slow: 0.6s ease;
+
+  /* ===========================
+     LAYOUT
+  =========================== */
+
+  --navbar-height: 80px;
+  --container-width: 1280px;
+}

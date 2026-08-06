@@ -1,0 +1,21 @@
+{
+  "name": "epsilon-collab-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "EPSILON real-time collaboration WebSocket server (Yjs + @y/websocket-server)",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file=.env server.js",
+    "dev": "node --env-file=.env --watch server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "ws": "^8.18.0",
+    "y-websocket": "^2.1.0",
+    "yjs": "^13.6.31"
+  }
+}

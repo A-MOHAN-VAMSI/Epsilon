@@ -1,0 +1,3 @@
+export default function FeaturesHeader() {
+  return <div className="mx-auto max-w-3xl text-center"><span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#C8FF3D] sm:text-xs">Capabilities</span><h2 className="mt-7 text-3xl font-semibold leading-[1.04] tracking-[-0.045em] sm:text-4xl lg:text-5xl">Everything a team<br className="hidden sm:block" /> needs, in one workspace</h2><p className="mt-6 text-base leading-7 text-white/60 sm:text-lg sm:leading-8">Editor, terminal, review, AI and deployment — sharing one real-time state instead of six disconnected tools.</p></div>;
+}

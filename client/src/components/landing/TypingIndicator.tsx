@@ -1,0 +1,3 @@
+export default function TypingIndicator() {
+  return <div className="absolute bottom-3 left-3 hidden items-center gap-2 rounded-full border border-white/10 bg-[#121a27]/90 px-2.5 py-1 text-[10px] text-white/65 shadow-lg backdrop-blur sm:flex"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />Emma is typing<span className="flex gap-0.5"><i className="h-1 w-1 animate-pulse rounded-full bg-white/45" /><i className="h-1 w-1 animate-pulse rounded-full bg-white/45 [animation-delay:150ms]" /><i className="h-1 w-1 animate-pulse rounded-full bg-white/45 [animation-delay:300ms]" /></span></div>;
+}

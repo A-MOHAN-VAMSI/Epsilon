@@ -1,0 +1,3 @@
+export default function StatusBar() {
+  return <div className="flex h-7 shrink-0 items-center justify-between border-t border-white/10 bg-[#101725] px-3 text-[9px] text-white/55 sm:px-4 sm:text-[10px]"><div className="flex items-center gap-3"><span className="text-[var(--color-primary)]">⌘ main</span><span>TypeScript</span><span className="hidden sm:inline">UTF-8</span></div><div className="flex items-center gap-3"><span className="hidden sm:inline">Ln 24, Col 15</span><span className="hidden md:inline">Spaces: 2</span><span className="flex items-center gap-1 text-[var(--color-primary)]"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--color-primary)]" />Connected</span><span className="font-medium text-emerald-400">Live</span></div></div>;
+}
