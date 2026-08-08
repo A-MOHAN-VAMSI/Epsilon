@@ -10,22 +10,25 @@ import {
   Users,
 } from "lucide-react";
 import SidebarItem from "./SidebarItem";
+import { usePathname } from "next/navigation";
 
 type SidebarProps = {
   user: { name: string; email: string };
 };
 
 const navigation = [
-  { label: "Dashboard", icon: LayoutDashboard, active: true },
-  { label: "Workspaces", icon: FolderKanban },
-  { label: "Teams", icon: Users },
-  { label: "AI Assistant", icon: Bot },
-  { label: "Analytics", icon: BarChart3 },
+  { label: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
+  { label: "Workspaces", icon: FolderKanban, href: "/dashboard" },
+  { label: "Teams", icon: Users, href: "/dashboard" },
+  { label: "AI Assistant", icon: Bot, href: "/ai-assistant" },
+  { label: "Analytics", icon: BarChart3, href: "/dashboard" },
 ];
 
 const mobileNavigation = navigation.slice(0, 4);
 
 export default function Sidebar({ user }: SidebarProps) {
+  const pathname = usePathname();
+
   return (
     <>
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-white/10 bg-[#08101c]/80 px-4 py-5 backdrop-blur-xl lg:flex lg:flex-col">
@@ -36,7 +39,13 @@ export default function Sidebar({ user }: SidebarProps) {
 
         <nav className="mt-10 space-y-1" aria-label="Primary navigation">
           <p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/35">Workspace</p>
-          {navigation.map((item) => <SidebarItem key={item.label} {...item} />)}
+          {navigation.map((item) => (
+            <SidebarItem
+              key={item.label}
+              {...item}
+              active={pathname === item.href || (item.href === "/ai-assistant" && pathname.startsWith("/ai-assistant"))}
+            />
+          ))}
         </nav>
 
         <div className="mt-auto border-t border-white/10 pt-4">
@@ -55,7 +64,14 @@ export default function Sidebar({ user }: SidebarProps) {
       </aside>
 
       <nav className="fixed inset-x-3 bottom-3 z-30 flex items-center justify-around rounded-2xl border border-white/10 bg-[#0b1320]/90 px-2 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl lg:hidden" aria-label="Mobile navigation">
-        {mobileNavigation.map((item) => <SidebarItem key={item.label} {...item} compact />)}
+        {mobileNavigation.map((item) => (
+          <SidebarItem
+            key={item.label}
+            {...item}
+            compact
+            active={pathname === item.href || (item.href === "/ai-assistant" && pathname.startsWith("/ai-assistant"))}
+          />
+        ))}
         <SidebarItem label="Settings" icon={Settings} compact />
       </nav>
     </>

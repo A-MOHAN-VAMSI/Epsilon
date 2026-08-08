@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, CheckCircle2, LoaderCircle, XCircle } from "lucide-react";
 import { clearSession, getCurrentUser } from "@/lib/supabaseAuth";
@@ -9,6 +9,14 @@ import { acceptInvite } from "@/lib/memberService";
 type Status = "loading" | "done" | "unauthorized" | "invalid";
 
 export default function JoinPage() {
+  return (
+    <Suspense fallback={<PageFallback />}> 
+      <JoinPageContent />
+    </Suspense>
+  );
+}
+
+function JoinPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("invite") ?? "";
@@ -96,6 +104,16 @@ export default function JoinPage() {
             <p className="mt-2 text-sm text-white/55">Please sign in to accept this invite.</p>
           </div>
         )}
+      </div>
+    </main>
+  );
+}
+
+function PageFallback() {
+  return (
+    <main className="grid min-h-screen place-items-center bg-[var(--color-background)] px-6">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.03] p-8 text-center shadow-[0_28px_80px_rgba(0,0,0,0.4)]">
+        <p className="text-sm text-white/60">Preparing workspace join...</p>
       </div>
     </main>
   );

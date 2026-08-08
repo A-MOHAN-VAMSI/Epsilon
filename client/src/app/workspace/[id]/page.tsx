@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, FileQuestion, LoaderCircle } from "lucide-react";
 import AppShell from "@/components/layout/AppShell";
 import WorkspaceEditor from "@/components/editor/WorkspaceEditor";
@@ -12,9 +12,19 @@ import type { Workspace } from "@/lib/workspaceService";
 type Status = "loading" | "ready" | "not-found" | "error";
 
 export default function WorkspacePage() {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <WorkspacePageContent />
+    </Suspense>
+  );
+}
+
+function WorkspacePageContent() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const id = params?.id;
+  const initialFileId = searchParams.get("file");
 
 const [user, setUser] = useState<{ name: string; email: string; id: string } | null>(null);
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
@@ -138,6 +148,7 @@ return (
         workspaceId={workspace.id}
         workspaceLanguage={workspace.language}
         workspaceName={workspace.name}
+        initialFileId={initialFileId}
         userId={user.id}
         userName={user.name}
         role={access.role}
@@ -145,5 +156,15 @@ return (
         onBack={() => router.replace("/dashboard")}
       />
     </AppShell>
+  );
+}
+function PageFallback() {
+  return (
+    <main className="grid min-h-screen place-items-center bg-[var(--color-background)] px-6">
+      <div className="flex items-center gap-3 text-sm text-white/55">
+        <LoaderCircle size={18} className="animate-spin text-[var(--color-primary)]" />
+        <span>Loading workspace...</span>
+      </div>
+    </main>
   );
 }

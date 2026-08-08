@@ -65,11 +65,13 @@ img {
    BUTTONS
 =========================== */
 
-button {
-  border: none;
-  background: none;
-  font: inherit;
-  cursor: pointer;
+@layer base {
+  button {
+    border: none;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+  }
 }
 
 /* ===========================
