@@ -1,12 +1,18 @@
-# EPSILON Button Visibility Fix
+# EPSILON Collab Server — Render Production Deployment
 
-## Progress
+## Steps
+- [x] Inspect collab/server.js
+- [x] Update port logic: `PORT || COLLAB_PORT || 1234` with safe numeric conversion
+- [x] Update startup/health-check logging (no hardcoded localhost claim in production)
+- [x] Verify package builds/starts
+- [x] Run `npm install` (up to date, 0 vulnerabilities)
+- [x] Run `npm start` — resolved to port 1234; `EADDRINUSE`: an existing node.exe (PID 28576) already occupies port 1234. Not killed; no second server started.
+- [x] Confirm port resolution (COLLAB_PORT=1234 picked up from .env)
+- [x] Run `npm audit` (0 vulnerabilities, report only, no upgrades)
 
-- [x] Investigate root cause of invisible/near-invisible primary buttons
-- [x] Agree on shared fix (wrap global `button` reset in `@layer base`)
-- [x] Apply the fix in `client/src/styles/globals.css`
-- [x] Verify Login "Sign in" button
-- [x] Verify Register "Create account" button
-- [x] Verify Dashboard "+ New Workspace" button
-- [x] Search project for other primary buttons using same styling
-- [x] Run TypeScript/build checks (3 pre-existing errors in WorkspaceEditor.tsx, unrelated to CSS change)
+## Files Changed
+- collab/server.js (port resolution + startup logging only)
+
+## Untouched
+- Authentication / Supabase authorization / Yjs sync / workspace membership /
+  room handling / WebSocket behavior / client / .env / .env.example / dependencies
