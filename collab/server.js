@@ -22,7 +22,14 @@ import { setupWSConnection } from "y-websocket/bin/utils";
 //     flagged writable. (See "Security limitation" notes below.)
 // ============================================================
 
-const PORT = Number(process.env.COLLAB_PORT ?? 1234);
+// Port resolution priority:
+//   1. process.env.PORT (injected by Render in production)
+//   2. process.env.COLLAB_PORT (local development)
+//   3. fallback: 1234
+// Safe numeric conversion: NaN (invalid value) falls through to the default.
+const PORT = Number(
+  process.env.PORT || process.env.COLLAB_PORT || 1234
+) || 1234;
 const RESERVED_ROOM_PREFIX = "epsilon/";
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -157,6 +164,7 @@ wss.on("connection", (ws, req) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`EPSILON collaboration server listening on ws://localhost:${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/`);
+  const host = process.env.PORT ? "0.0.0.0 (production)" : "localhost (local)";
+  console.log(`EPSILON collaboration server listening on port ${PORT} (${host})`);
+  console.log(`Health check available at http://localhost:${PORT}/`);
 });
