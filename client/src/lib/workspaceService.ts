@@ -32,11 +32,12 @@ function config() {
   return { url, anonKey };
 }
 
-function authHeaders(anonKey: string, accessToken: string) {
+function authHeaders(anonKey: string, accessToken: string, preferRepresentation = false) {
   return {
     apikey: anonKey,
     Authorization: `Bearer ${accessToken}`,
     "Content-Type": "application/json",
+    ...(preferRepresentation ? { Prefer: "return=representation" } : {}),
   };
 }
 
@@ -66,9 +67,16 @@ async function workspaceRequest<T>(
   }
 
   const auth = config();
+
+  // POST/PATCH need the inserted/updated row back because the callers
+  // expect the created/updated Workspace. Without `return=representation`
+  // PostgREST returns an empty body, which would make response.json()
+  // throw "Unexpected end of JSON input" even though the write succeeded.
+  const needsRepresentation = method === "POST" || method === "PATCH";
+
   const response = await fetch(`${auth.url}/rest/v1${path}`, {
     method,
-    headers: authHeaders(auth.anonKey, session.access_token),
+    headers: authHeaders(auth.anonKey, session.access_token, needsRepresentation),
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
 
@@ -81,7 +89,19 @@ async function workspaceRequest<T>(
     return undefined as T;
   }
 
-  return (await response.json()) as T;
+  // Avoid "Unexpected end of JSON input" if PostgREST returns a successful
+  // response with no body. Callers that require a body will then see a
+  // missing result and surface a useful error instead of a JSON parse crash.
+  const text = await response.text();
+
+  if (!text.trim()) {
+    console.warn(
+      `workspaceRequest: expected a JSON body for ${method} ${path} but the response was empty.`
+    );
+    return undefined as T;
+  }
+
+  return JSON.parse(text) as T;
 }
 
 const selectColumns = "id,name,description,owner_id,language,created_at,updated_at";
