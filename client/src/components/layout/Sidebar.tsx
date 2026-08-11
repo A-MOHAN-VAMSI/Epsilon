@@ -74,11 +74,11 @@ export default function Sidebar({ user }: SidebarProps) {
           <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.035] p-2 transition-colors hover:border-white/15 hover:bg-white/[0.055]">
             <div className="flex items-center gap-2.5 px-1 py-1">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--color-primary)] to-[#8bbd1f] text-xs font-bold text-[#07100b]">{user.name.charAt(0).toUpperCase()}</span>
-              <span className="min-w-0 flex-1"><span className="block truncate text-xs font-medium text-white/90">{user.name}</span><span className="block truncate text-[10px] text-white/40">{user.email}</span></span>
+              <span className="min-w-0 flex-1"><span className="block truncate text-xs font-medium text-white/90">{user.name}</span><span className="block truncate text-[10px] text-white/50">{user.email}</span></span>
             </div>
             <div className="mt-2 grid grid-cols-2 gap-1 border-t border-white/[0.08] pt-2">
-              <button type="button" className="flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] text-white/55 transition-colors hover:bg-white/[0.07] hover:text-white"><UserRound size={13} />Profile</button>
-              <button type="button" className="flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] text-white/55 transition-colors hover:bg-red-400/10 hover:text-red-300"><LogOut size={13} />Logout</button>
+              <button type="button" className="flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] text-white/70 transition-colors hover:bg-white/[0.07] hover:text-white"><UserRound size={13} />Profile</button>
+              <button type="button" className="flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[11px] text-white/70 transition-colors hover:bg-red-400/10 hover:text-red-300"><LogOut size={13} />Logout</button>
             </div>
           </div>
         </div>

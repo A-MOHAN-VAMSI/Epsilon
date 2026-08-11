@@ -74,27 +74,6 @@ img {
   }
 }
 
-/* Bright primary controls always need a dark foreground, even if a composed
-   utility class also contributes a light text color. This is intentionally
-   scoped to filled lime buttons/links rather than all controls. */
-button[class*="bg-[var(--color-primary)]"],
-a[class*="bg-[var(--color-primary)]"],
-button[class*="bg-[#C8FF3D]"],
-a[class*="bg-[#C8FF3D]"],
-button[class*="bg-[#c8ff3d]"],
-a[class*="bg-[#c8ff3d]"] {
-  color: var(--color-primary-foreground) !important;
-}
-
-button[class*="bg-[var(--color-primary)]"] svg,
-a[class*="bg-[var(--color-primary)]"] svg,
-button[class*="bg-[#C8FF3D]"] svg,
-a[class*="bg-[#C8FF3D]"] svg,
-button[class*="bg-[#c8ff3d]"] svg,
-a[class*="bg-[#c8ff3d]"] svg {
-  color: var(--color-primary-foreground) !important;
-}
-
 /* ===========================
    INPUTS
 =========================== */
