@@ -89,7 +89,7 @@ export default function FileInputDialog({
             <button
               type="submit"
               disabled={loading || !value.trim()}
-              className="inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-[#07100b] transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-[var(--color-primary-foreground)] transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading && <LoaderCircle size={15} className="animate-spin" />}
               {submitLabel}

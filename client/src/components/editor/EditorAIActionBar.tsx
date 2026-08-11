@@ -119,7 +119,7 @@ export default function EditorAIActionBar({
                 type="button"
                 onClick={submitAsk}
                 disabled={!askText.trim()}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-xs font-semibold text-[#07100b] transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-xs font-semibold text-[var(--color-primary-foreground)] transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Wand2 size={12} />
                 Ask

@@ -119,7 +119,7 @@ export default function NewWorkspaceModal({ open, onClose, onCreated }: NewWorks
             <button
               type="submit"
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[#07100b] transition-all hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[var(--color-primary-foreground)] transition-all hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
             >
               {loading ? <LoaderCircle size={16} className="animate-spin" /> : <Plus size={16} />}
               {loading ? "Creating..." : "Create Workspace"}

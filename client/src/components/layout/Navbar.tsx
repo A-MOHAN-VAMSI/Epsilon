@@ -49,7 +49,7 @@ export default function Navbar() {
               <>
                 <Link
                   href="/dashboard"
-                  className="rounded-xl bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[#0a0e0a] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(199,255,36,0.25)]"
+                  className="rounded-xl bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--color-primary-foreground)] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(199,255,36,0.25)]"
                 >
                   Dashboard
                 </Link>
@@ -106,7 +106,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   href="/register"
-                  className="rounded-xl bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[#0a0e0a] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(199,255,36,0.25)]"
+                  className="rounded-xl bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--color-primary-foreground)] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_25px_rgba(199,255,36,0.25)]"
                 >
                   Start Building
                 </Link>

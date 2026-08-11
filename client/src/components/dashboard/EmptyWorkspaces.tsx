@@ -19,7 +19,7 @@ export default function EmptyWorkspaces({ onCreate }: EmptyWorkspacesProps) {
       <button
         type="button"
         onClick={onCreate}
-        className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[#07100b] shadow-[0_8px_22px_rgba(200,255,61,0.18)] transition-all hover:-translate-y-px hover:shadow-[0_12px_28px_rgba(200,255,61,0.28)]"
+        className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--color-primary-foreground)] shadow-[0_8px_22px_rgba(200,255,61,0.18)] transition-all hover:-translate-y-px hover:shadow-[0_12px_28px_rgba(200,255,61,0.28)]"
       >
         <Plus size={16} />
         Create your first workspace

@@ -20,7 +20,7 @@ export default function AuthTabs({ activeTab }: AuthTabsProps) {
           href={tab.href}
           className={`rounded-xl px-3 py-3 text-center transition-colors ${
             activeTab === tab.key
-              ? "bg-[var(--color-primary)] font-medium text-[#0a0e0a]"
+              ? "bg-[var(--color-primary)] font-medium text-[var(--color-primary-foreground)]"
               : "text-white/55 hover:text-white"
           }`}
         >

@@ -89,7 +89,7 @@ function JoinPageContent() {
             <button
               type="button"
               onClick={() => router.replace("/dashboard")}
-              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[#07100b] transition-all hover:brightness-105"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-[var(--color-primary-foreground)] transition-all hover:brightness-105"
             >
               <ArrowLeft size={16} />
               Back to Dashboard

@@ -61,7 +61,7 @@ export default function AIComposer({
           type="button"
           onClick={onSubmit}
           disabled={disabled}
-          className="inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[#07100b] transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[var(--color-primary-foreground)] transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <SendHorizonal size={15} />
           Send

@@ -86,7 +86,7 @@ export default function JoinWorkspaceModal({ open, onClose }: JoinWorkspaceModal
             type="button"
             onClick={() => void submit()}
             disabled={loading}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[#07100b] transition-all hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-2.5 text-sm font-semibold text-[var(--color-primary-foreground)] transition-all hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
           >
             {loading ? <LoaderCircle size={16} className="animate-spin" /> : <ArrowRight size={16} />}
             Continue

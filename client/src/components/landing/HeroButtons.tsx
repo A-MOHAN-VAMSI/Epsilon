@@ -5,7 +5,7 @@ export default function HeroButtons() {
     <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
       <Link
         href="/register"
-        className="inline-flex items-center justify-center rounded-xl bg-[var(--color-primary)] px-7 py-3.5 text-sm font-semibold text-[#0a0e0a] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(199,255,36,0.28)]"
+        className="inline-flex items-center justify-center rounded-xl bg-[var(--color-primary)] px-7 py-3.5 text-sm font-semibold text-[var(--color-primary-foreground)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(199,255,36,0.28)]"
       >
         Start building free&nbsp;&rarr;
       </Link>

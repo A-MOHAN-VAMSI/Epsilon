@@ -103,7 +103,7 @@ export default function AuthScreen({ mode }: AuthScreenProps) {
 
           <button
             disabled={loading}
-            className="flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[#0a0e0a] transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
+            className="flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-primary)] px-4 py-3 text-sm font-semibold text-[var(--color-primary-foreground)] transition hover:brightness-105 disabled:cursor-wait disabled:opacity-60"
           >
             {loading && <LoaderCircle size={16} className="animate-spin" />}
             {isRegister ? "Create account" : "Sign in"}

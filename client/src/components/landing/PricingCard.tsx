@@ -187,7 +187,7 @@ export default function PricingCard({ plan, index }: Props) {
           focus-visible:ring-offset-[#050816]
           ${highlighted
             ? /* Solid lime — primary CTA */
-              "bg-[#C8FF3D] text-black hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(200,255,61,0.40)]"
+              "bg-[#C8FF3D] text-[var(--color-primary-foreground)] hover:-translate-y-0.5 hover:shadow-[0_0_32px_rgba(200,255,61,0.40)]"
             : /* Ghost — secondary CTA */
               "border border-white/10 text-white hover:border-[#C8FF3D]/40 hover:bg-[#C8FF3D]/[0.06]"}
         `}
