@@ -49,7 +49,7 @@ export default function WorkspaceCard({ workspace, onEdit, onDelete }: Workspace
           </button>
           <Link
             href={`/workspace/${workspace.id}`}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-3 py-2 text-xs font-semibold text-[var(--color-primary-foreground)] transition-all hover:scale-[1.03] hover:shadow-[0_6px_18px_rgba(200,255,61,0.25)]"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-3 py-2 text-xs font-semibold !text-[#07100b] transition-all hover:scale-[1.03] hover:shadow-[0_6px_18px_rgba(200,255,61,0.25)]"
           >
             Open<ArrowUpRight size={14} />
           </Link>

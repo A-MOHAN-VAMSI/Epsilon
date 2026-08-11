@@ -25,7 +25,7 @@ export default function RunButton({
         running
           ? "bg-red-500/15 text-red-300 hover:bg-red-500/25"
           : supported
-            ? "bg-[var(--color-primary)] text-[var(--color-primary-foreground)] hover:brightness-105"
+            ? "bg-[var(--color-primary)] !text-[#07100b] hover:brightness-105"
             : "cursor-not-allowed bg-white/[0.04] text-white/30"
       } disabled:cursor-not-allowed disabled:opacity-60`}
     >
