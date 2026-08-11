@@ -41,8 +41,11 @@ export default function EditorAIActionBar({
   }
 
   return (
-    <div className="ai-action-bar absolute right-3 top-3 z-10 flex flex-col items-end gap-2">
-      <div className="flex items-center gap-1 rounded-xl border border-white/10 bg-[#0a111b]/95 p-1 shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur">
+    <div className="contents">
+      <div
+        className="ai-action-bar order-2 flex h-10 min-w-0 max-w-full items-center gap-1 overflow-x-auto rounded-lg border border-white/10 bg-[#0a111b] p-1"
+        aria-label="AI editor actions"
+      >
         {ACTIONS.map((action) => {
           if (action.writable && !canWrite) return null;
           const Icon = action.icon;
@@ -81,45 +84,47 @@ export default function EditorAIActionBar({
       </div>
 
       {askOpen && (
-        <div className="flex w-72 flex-col gap-2 rounded-xl border border-white/10 bg-[#0a111b]/95 p-3 shadow-[0_16px_40px_rgba(0,0,0,0.4)] backdrop-blur">
-          <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
-            <RefreshCcw size={11} className="text-[var(--color-primary)]" />
-            Ask EPSILON AI
-          </span>
-          <textarea
-            value={askText}
-            onChange={(event) => setAskText(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault();
-                submitAsk();
+        <div className="order-4 flex basis-full justify-end border-t border-white/[0.07] bg-[#0a0f16] p-2">
+          <div className="flex w-72 max-w-full flex-col gap-2 rounded-xl border border-white/10 bg-[#0a111b] p-3 shadow-[0_12px_30px_rgba(0,0,0,0.28)]">
+            <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+              <RefreshCcw size={11} className="text-[var(--color-primary)]" />
+              Ask EPSILON AI
+            </span>
+            <textarea
+              value={askText}
+              onChange={(event) => setAskText(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
+                  submitAsk();
+                }
+              }}
+              rows={2}
+              placeholder={
+                hasSelection
+                  ? "e.g. Convert this to async/await"
+                  : "e.g. Add error handling to this file"
               }
-            }}
-            rows={2}
-            placeholder={
-              hasSelection
-                ? "e.g. Convert this to async/await"
-                : "e.g. Add error handling to this file"
-            }
-            className="w-full resize-none rounded-lg border border-white/10 bg-[#08101c]/80 px-3 py-2 text-xs text-white outline-none placeholder:text-white/35 focus:border-[var(--color-primary)]/50"
-          />
-          <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              onClick={() => setAskOpen(false)}
-              className="rounded-lg px-3 py-1.5 text-xs text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={submitAsk}
-              disabled={!askText.trim()}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-xs font-semibold text-[#07100b] transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <Wand2 size={12} />
-              Ask
-            </button>
+              className="w-full resize-none rounded-lg border border-white/10 bg-[#08101c]/80 px-3 py-2 text-xs text-white outline-none placeholder:text-white/35 focus:border-[var(--color-primary)]/50"
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setAskOpen(false)}
+                className="rounded-lg px-3 py-1.5 text-xs text-white/60 transition-colors hover:bg-white/[0.06] hover:text-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={submitAsk}
+                disabled={!askText.trim()}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-primary)] px-3 py-1.5 text-xs font-semibold text-[#07100b] transition-all hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Wand2 size={12} />
+                Ask
+              </button>
+            </div>
           </div>
         </div>
       )}

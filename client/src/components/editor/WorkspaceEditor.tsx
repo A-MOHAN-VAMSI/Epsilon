@@ -740,15 +740,27 @@ setSaveStatus("dirty");
         />
 
 <div className="flex min-w-0 flex-1 flex-col">
-          <div className="flex items-center border-b border-white/10">
-            <EditorTabs
-              openFiles={openFiles}
-              activeFileId={activeFileId}
-              dirtyIds={dirtyIds}
-              onSelect={selectFile}
-              onClose={closeTab}
-            />
-            <div className="ml-auto flex shrink-0 items-center gap-2 px-2">
+          <div className="flex flex-wrap items-center gap-2 border-b border-white/10 bg-[#0a0f16] px-2 py-1">
+            <div className="order-1 min-w-0 flex-1">
+              <EditorTabs
+                openFiles={openFiles}
+                activeFileId={activeFileId}
+                dirtyIds={dirtyIds}
+                onSelect={selectFile}
+                onClose={closeTab}
+              />
+            </div>
+
+            {activeFile && collabSession ? (
+              <EditorAIActionBar
+                hasSelection={!!selection}
+                canWrite={canWrite}
+                disabled={aiGenerating}
+                onAction={(action, request) => void runAIAction(action, request)}
+              />
+            ) : null}
+
+            <div className="order-3 ml-auto flex shrink-0 items-center">
               <RunButton
                 running={executionRunning}
                 disabled={!canWrite}
@@ -782,14 +794,6 @@ setSaveStatus("dirty");
                 </div>
               )}
 
-              {activeFile && collabSession ? (
-                <EditorAIActionBar
-                  hasSelection={!!selection}
-                  canWrite={canWrite}
-                  disabled={aiGenerating}
-                  onAction={(action, request) => void runAIAction(action, request)}
-                />
-              ) : null}
             </div>
 
             {aiPanelOpen && activeFile && collabSession ? (
