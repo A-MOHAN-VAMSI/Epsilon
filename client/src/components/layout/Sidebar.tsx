@@ -1,3 +1,5 @@
+"use client";
+
 import {
   BarChart3,
   Bot,
@@ -26,6 +28,25 @@ const navigation = [
 
 const mobileNavigation = navigation.slice(0, 4);
 
+function isNavigationItemActive(label: string, pathname: string) {
+  switch (label) {
+    case "Dashboard":
+      return pathname === "/dashboard";
+    case "Workspaces":
+      return pathname === "/workspaces" || pathname.startsWith("/workspace/");
+    case "Teams":
+      return pathname === "/teams";
+    case "AI Assistant":
+      return pathname === "/ai-assistant" || pathname.startsWith("/ai-assistant/");
+    case "Analytics":
+      return pathname === "/analytics";
+    case "Settings":
+      return pathname === "/settings";
+    default:
+      return false;
+  }
+}
+
 export default function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
 
@@ -43,13 +64,13 @@ export default function Sidebar({ user }: SidebarProps) {
             <SidebarItem
               key={item.label}
               {...item}
-              active={pathname === item.href || (item.href === "/ai-assistant" && pathname.startsWith("/ai-assistant"))}
+              active={isNavigationItemActive(item.label, pathname)}
             />
           ))}
         </nav>
 
         <div className="mt-auto border-t border-white/10 pt-4">
-          <SidebarItem label="Settings" icon={Settings} />
+          <SidebarItem label="Settings" icon={Settings} active={isNavigationItemActive("Settings", pathname)} />
           <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.035] p-2 transition-colors hover:border-white/15 hover:bg-white/[0.055]">
             <div className="flex items-center gap-2.5 px-1 py-1">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[var(--color-primary)] to-[#8bbd1f] text-xs font-bold text-[#07100b]">{user.name.charAt(0).toUpperCase()}</span>
@@ -69,10 +90,10 @@ export default function Sidebar({ user }: SidebarProps) {
             key={item.label}
             {...item}
             compact
-            active={pathname === item.href || (item.href === "/ai-assistant" && pathname.startsWith("/ai-assistant"))}
+            active={isNavigationItemActive(item.label, pathname)}
           />
         ))}
-        <SidebarItem label="Settings" icon={Settings} compact />
+        <SidebarItem label="Settings" icon={Settings} compact active={isNavigationItemActive("Settings", pathname)} />
       </nav>
     </>
   );
