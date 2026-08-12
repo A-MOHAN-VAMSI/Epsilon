@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-
 import "../styles/globals.css";
+import PageTransition from "@/components/layout/PageTransition";
 
 export const metadata: Metadata = {
   title: "EPSILON",
@@ -15,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <PageTransition>
+          {children}
+        </PageTransition>
+      </body>
     </html>
   );
 }
