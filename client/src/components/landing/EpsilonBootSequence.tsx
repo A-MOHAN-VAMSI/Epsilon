@@ -8,26 +8,17 @@ export default function EpsilonBootSequence() {
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    // During development, always show the boot sequence.
-    // In production, show it once per browser session.
-    const isDevelopment = process.env.NODE_ENV === "development";
     const alreadySeen = sessionStorage.getItem("epsilon_boot_seen");
 
-    if (!isDevelopment && alreadySeen === "true") {
+    if (alreadySeen === "true") {
       document.body.classList.add("epsilon-site-ready");
       setVisible(false);
       return;
     }
 
-    // Clear any previous ready state before starting the boot.
-    document.body.classList.remove("epsilon-site-ready");
+    sessionStorage.setItem("epsilon_boot_seen", "true");
 
-    if (!isDevelopment) {
-      sessionStorage.setItem("epsilon_boot_seen", "true");
-    }
-
-    const duration = 1200;
-
+    const duration = 1450;
     let startTime: number | null = null;
     let animationFrame = 0;
 
@@ -39,7 +30,6 @@ export default function EpsilonBootSequence() {
       const elapsed = timestamp - startTime;
       const rawProgress = Math.min(elapsed / duration, 1);
 
-      // Smooth premium easing.
       const easedProgress =
         1 - Math.pow(1 - rawProgress, 3);
 
@@ -50,27 +40,30 @@ export default function EpsilonBootSequence() {
         return;
       }
 
-      // Brief READY state.
+      /*
+       * BOOT COMPLETE
+       *
+       * Start the website reveal and boot exit together.
+       */
       window.setTimeout(() => {
         document.body.classList.add("epsilon-site-ready");
 
-        // Begin smooth exit.
+        // Give the website a tiny moment to begin revealing.
         window.setTimeout(() => {
           setExiting(true);
-        }, 100);
+        }, 120);
 
-        // Remove boot layer after transition.
+        // Remove boot after the cinematic transition.
         window.setTimeout(() => {
           setVisible(false);
-        }, 900);
-      }, 150);
+        }, 1100);
+      }, 250);
     };
 
     animationFrame = requestAnimationFrame(animate);
 
     return () => {
       cancelAnimationFrame(animationFrame);
-      document.body.classList.remove("epsilon-site-ready");
     };
   }, []);
 
@@ -83,34 +76,27 @@ export default function EpsilonBootSequence() {
       className={`epsilon-boot ${
         exiting ? "epsilon-boot-exiting" : ""
       }`}
-      aria-label="EPSILON loading"
+      aria-label="EPSILON"
     >
-      {/* Ambient glow */}
       <div className="epsilon-boot-glow" />
 
-      {/* Technical grid */}
       <div className="epsilon-boot-grid" />
 
-      {/* Center */}
       <div className="epsilon-boot-center">
 
-        {/* Logo */}
         <div className="epsilon-boot-symbol">
           ε
         </div>
 
-        {/* Brand */}
         <div className="epsilon-boot-brand">
           E P S I L O N
         </div>
 
-        {/* Status */}
         <div className="epsilon-boot-status">
           <span>INITIALIZING</span>
           <span>{progress}%</span>
         </div>
 
-        {/* Progress */}
         <div className="epsilon-boot-progress">
           <div
             className="epsilon-boot-progress-bar"
@@ -120,7 +106,6 @@ export default function EpsilonBootSequence() {
           />
         </div>
 
-        {/* Ready */}
         <div
           className={`epsilon-boot-ready ${
             progress >= 100 ? "visible" : ""
@@ -128,14 +113,12 @@ export default function EpsilonBootSequence() {
         >
           READY
         </div>
+
       </div>
 
-      {/* Bottom metadata */}
       <div className="epsilon-boot-meta">
         <span>EPSILON</span>
-        <span>
-          COLLABORATIVE DEVELOPMENT ENVIRONMENT
-        </span>
+        <span>COLLABORATIVE DEVELOPMENT ENVIRONMENT</span>
         <span>V2.0</span>
       </div>
     </div>

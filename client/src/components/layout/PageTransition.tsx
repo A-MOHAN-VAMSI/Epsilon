@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 export default function PageTransition({
@@ -9,22 +9,33 @@ export default function PageTransition({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [visible, setVisible] = useState(true);
+
+  const firstRender = useRef(true);
+  const [transitioning, setTransitioning] = useState(false);
 
   useEffect(() => {
-    setVisible(false);
+    // Don't run a page transition when the application first loads.
+    // The EPSILON boot sequence handles that.
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+
+    setTransitioning(true);
 
     const timer = window.setTimeout(() => {
-      setVisible(true);
-    }, 40);
+      setTransitioning(false);
+    }, 500);
 
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+    };
   }, [pathname]);
 
   return (
     <div
       className={`epsilon-page-transition ${
-        visible ? "epsilon-page-visible" : ""
+        transitioning ? "epsilon-page-transitioning" : ""
       }`}
     >
       {children}

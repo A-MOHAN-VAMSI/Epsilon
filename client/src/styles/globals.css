@@ -3,31 +3,38 @@
 @import "./variables.css";
 @import "./animations.css";
 
+/* =========================================================
+   GLOBAL RESET
+   ========================================================= */
 
-/* ===========================
-   RESET
-=========================== */
-@layer base{
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  button {
+    border: none;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+  }
 }
 
-/* ===========================
+/* =========================================================
    HTML
-=========================== */
+   ========================================================= */
 
 html {
   scroll-behavior: smooth;
 }
 
-/* ===========================
+/* =========================================================
    BODY
-=========================== */
+   ========================================================= */
 
 body {
   background: var(--color-background);
@@ -39,46 +46,38 @@ body {
 
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+
   overflow-x: hidden;
-  background-image: radial-gradient(circle at 50% -20%, rgba(199, 255, 36, 0.035), transparent 36%);
+
+  background-image:
+    radial-gradient(
+      circle at 50% -20%,
+      rgba(199, 255, 36, 0.035),
+      transparent 36%
+    );
 }
 
-/* ===========================
+/* =========================================================
    LINKS
-=========================== */
+   ========================================================= */
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* ===========================
+/* =========================================================
    IMAGES
-=========================== */
+   ========================================================= */
 
 img {
   display: block;
   max-width: 100%;
 }
 
-/* ===========================
-   BUTTONS
-=========================== */
-
-@layer base {
-  button {
-    border: none;
-    background: none;
-    font: inherit;
-    cursor: pointer;
-  }
-}
-
-
-
-/* ===========================
+/* =========================================================
    INPUTS
-=========================== */
+   ========================================================= */
 
 input,
 textarea,
@@ -86,18 +85,18 @@ select {
   font: inherit;
 }
 
-/* ===========================
+/* =========================================================
    SELECTION
-=========================== */
+   ========================================================= */
 
 ::selection {
   background: var(--color-primary);
   color: white;
 }
 
-/* ===========================
+/* =========================================================
    SCROLLBAR
-=========================== */
+   ========================================================= */
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -117,509 +116,271 @@ select {
 }
 
 /* =========================================================
-   CENTER BRANDING
+   LANDING PAGE BASE
    ========================================================= */
 
-.epsilon-reveal-center {
-  position: absolute;
+/*
+   The website remains normally rendered underneath the
+   boot screen. The boot is a fixed overlay.
+*/
 
-  z-index: 5;
+.epsilon-site {
+  min-height: 100vh;
 
-  top: 50%;
-  left: 50%;
+  opacity: 0;
 
-  transform: translate(-50%, -50%);
+  transform:
+    translateY(18px)
+    scale(0.97);
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  filter: blur(6px);
 
-  animation: epsilonCenterIn 0.8s ease-out forwards;
+  transform-origin: center top;
+
+  transition:
+    opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1200ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  will-change:
+    opacity,
+    transform,
+    filter;
 }
 
-.epsilon-reveal-symbol {
-  width: 76px;
-  height: 76px;
+body.epsilon-site-ready .epsilon-site {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter: blur(0);
+}
+
+/* =========================================================
+   EPSILON BOOT SEQUENCE
+   Matches EpsilonBootSequence.tsx
+   ========================================================= */
+
+.epsilon-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border: 1px solid rgba(200, 255, 61, 0.35);
+  overflow: hidden;
 
-  border-radius: 22px;
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(184, 255, 0, 0.10),
+      transparent 35%
+    ),
+    #050805;
 
-  background: rgba(200, 255, 61, 0.035);
+  color: #f5f7f2;
 
-  color: #c8ff3d;
-
-  font-family: Georgia, serif;
-
-  font-size: 44px;
-  line-height: 1;
-
-  box-shadow:
-    0 0 35px rgba(200, 255, 61, 0.08),
-    inset 0 0 25px rgba(200, 255, 61, 0.025);
-}
-
-.epsilon-reveal-brand {
-  margin-top: 20px;
-
-  font-size: 14px;
-  font-weight: 700;
-
-  letter-spacing: 0.5em;
-
-  transform: translateX(0.25em);
-
-  color: #f4f7f2;
-}
-
-.epsilon-reveal-line {
-  width: 0;
-  height: 1px;
-
-  margin-top: 18px;
-
-  background: #c8ff3d;
-
-  box-shadow:
-    0 0 12px rgba(200, 255, 61, 0.7),
-    0 0 30px rgba(200, 255, 61, 0.2);
-
-  animation: epsilonLineGrow 0.7s ease-out 0.4s forwards;
-}
-
-/* =========================================================
-   REVEAL PANELS
-   ========================================================= */
-
-.epsilon-reveal-panel {
-  position: absolute;
-
-  z-index: 3;
-
-  top: 0;
-  bottom: 0;
-
-  width: 50%;
-
-  background: #050705;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
 
   transition:
-    transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
-}
-
-.epsilon-reveal-panel-left {
-  left: 0;
-
-  border-right: 1px solid rgba(200, 255, 61, 0.08);
-}
-
-.epsilon-reveal-panel-right {
-  right: 0;
-
-  border-left: 1px solid rgba(200, 255, 61, 0.08);
-}
-
-/*
-   Once reveal starts, the two panels move away
-   from the center.
-*/
-
-.epsilon-reveal.is-revealing .epsilon-reveal-panel-left {
-  transform: translateX(-100%);
-}
-
-.epsilon-reveal.is-revealing .epsilon-reveal-panel-right {
-  transform: translateX(100%);
-}
-
-/* Branding disappears as panels open */
-
-.epsilon-reveal.is-revealing .epsilon-reveal-center {
-  animation: epsilonCenterOut 0.65s ease-in forwards;
+    opacity 750ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 750ms ease;
 }
 
 /* =========================================================
-   SKIP
+   BOOT AMBIENT GLOW
    ========================================================= */
 
-.epsilon-reveal-skip {
+.epsilon-boot-glow {
   position: absolute;
 
-  z-index: 10;
+  width: 420px;
+  height: 420px;
 
-  right: 28px;
-  bottom: 25px;
+  border-radius: 50%;
 
-  padding: 7px 12px;
+  background: rgba(184, 255, 0, 0.08);
 
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  filter: blur(100px);
 
-  border-radius: 6px;
+  opacity: 0.7;
 
-  background: transparent;
+  animation:
+    epsilonBootGlow
+    3s
+    ease-in-out
+    infinite;
 
-  color: rgba(255, 255, 255, 0.4);
-
-  font-family: monospace;
-
-  font-size: 9px;
-
-  letter-spacing: 0.12em;
-
-  cursor: pointer;
-
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease,
-    background 0.2s ease;
-}
-
-.epsilon-reveal-skip:hover {
-  color: #c8ff3d;
-
-  border-color: rgba(200, 255, 61, 0.4);
-
-  background: rgba(200, 255, 61, 0.04);
-}
-
-/* =========================================================
-   ACTUAL WEBSITE REVEAL
-   ========================================================= */
-
-/*
-   The landing page is underneath the reveal.
-
-   Once EPSILON is ready, the actual website
-   smoothly rises into place.
-*/
-
-
-
-/* =========================================================
-   ANIMATIONS
-   ========================================================= */
-
-@keyframes epsilonCenterIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.85);
-    filter: blur(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    filter: blur(0);
-  }
-}
-
-@keyframes epsilonCenterOut {
-  from {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  to {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.92);
-  }
-}
-
-@keyframes epsilonLineGrow {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 90px;
-  }
-}
-
-@keyframes epsilonSiteReveal {
-  from {
-    opacity: 0;
-    transform: translateY(18px) scale(0.995);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .epsilon-reveal,
-  .epsilon-reveal *,
-  .epsilon-site-ready .epsilon-site {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  .epsilon-reveal {
-    display: none;
-  }
-
-  .epsilon-site {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-  .epsilon-reveal-symbol {
-    width: 64px;
-    height: 64px;
-
-    font-size: 36px;
-
-    border-radius: 18px;
-  }
-
-  .epsilon-reveal-brand {
-    font-size: 12px;
-  }
-
-  .epsilon-reveal-skip {
-    right: 18px;
-    bottom: 18px;
-  }
-}
-
-/* =========================================================
-   EPSILON BOOT SEQUENCE
-   ========================================================= */
-
-
-
-.epsilon-boot-finished {
-  opacity: 0;
-  transform: scale(1.04);
   pointer-events: none;
 }
 
-/* Grid */
-
-
-/* Moving scan line */
-
-.epsilon-scanline {
-  position: absolute;
-
-  left: 0;
-  right: 0;
-
-  height: 1px;
-
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(190, 255, 40, 0.8),
-    transparent
-  );
-
-  box-shadow:
-    0 0 20px rgba(190, 255, 40, 0.35);
-
-  animation: epsilon-scan 3s linear infinite;
-}
-
-@keyframes epsilon-scan {
-  0% {
-    top: -5%;
-  }
-
+@keyframes epsilonBootGlow {
+  0%,
   100% {
-    top: 105%;
+    transform: scale(0.9);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 0.8;
   }
 }
 
-/* Main */
+/* =========================================================
+   BOOT GRID
+   ========================================================= */
 
-.epsilon-boot-content {
+.epsilon-boot-grid {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(184, 255, 0, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(184, 255, 0, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 50px 50px;
+
+  mask-image:
+    radial-gradient(
+      circle at center,
+      black,
+      transparent 75%
+    );
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   BOOT CENTER
+   ========================================================= */
+
+.epsilon-boot-center {
   position: relative;
   z-index: 2;
-
-  width: min(720px, calc(100% - 40px));
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  width: min(420px, 80vw);
+
+  animation:
+    epsilonBootEntry
+    900ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
 }
 
-/* Symbol */
+@keyframes epsilonBootEntry {
+  from {
+    opacity: 0;
+    transform:
+      translateY(18px)
+      scale(0.97);
+  }
 
-.epsilon-symbol {
-  width: 84px;
-  height: 84px;
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
 
-  display: grid;
-  place-items: center;
+/* =========================================================
+   EPSILON SYMBOL
+   ========================================================= */
 
-  border: 1px solid rgba(190, 255, 40, 0.5);
-  border-radius: 24px;
+.epsilon-boot-symbol {
+  width: 82px;
+  height: 82px;
 
-  background: rgba(190, 255, 40, 0.035);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  color: #baff24;
+  border:
+    1px solid
+    rgba(184, 255, 0, 0.45);
 
+  border-radius: 22px;
+
+  background:
+    rgba(184, 255, 0, 0.035);
+
+  color: #b8ff00;
+
+  font-family: Georgia, serif;
   font-size: 42px;
-  font-weight: 300;
+  font-weight: 400;
 
   box-shadow:
-    0 0 30px rgba(190, 255, 40, 0.12),
-    inset 0 0 30px rgba(190, 255, 40, 0.035);
+    0 0 0 1px rgba(184, 255, 0, 0.04),
+    0 0 50px rgba(184, 255, 0, 0.08);
 
-  animation: epsilon-pulse 2s ease-in-out infinite;
+  animation:
+    epsilonSymbolPulse
+    2.5s
+    ease-in-out
+    infinite;
 }
 
-@keyframes epsilon-pulse {
+@keyframes epsilonSymbolPulse {
   0%,
   100% {
-    transform: scale(1);
     box-shadow:
-      0 0 30px rgba(190, 255, 40, 0.12),
-      inset 0 0 30px rgba(190, 255, 40, 0.035);
+      0 0 0 1px rgba(184, 255, 0, 0.04),
+      0 0 35px rgba(184, 255, 0, 0.06);
   }
 
   50% {
-    transform: scale(1.04);
     box-shadow:
-      0 0 55px rgba(190, 255, 40, 0.22),
-      inset 0 0 35px rgba(190, 255, 40, 0.06);
+      0 0 0 1px rgba(184, 255, 0, 0.12),
+      0 0 60px rgba(184, 255, 0, 0.16);
   }
 }
 
-/* Brand */
+/* =========================================================
+   BOOT BRAND
+   ========================================================= */
 
 .epsilon-boot-brand {
   margin-top: 24px;
 
+  color: #ffffff;
+
   font-size: 16px;
   font-weight: 600;
 
-  letter-spacing: 0.42em;
-
-  color: #f5f7f2;
-}
-
-/* Title */
-
-.epsilon-boot-title {
-  margin-top: 12px;
-
-  font-size: 11px;
-  letter-spacing: 0.45em;
-
-  color: #baff24;
-}
-
-/* Terminal */
-
-.epsilon-boot-terminal {
-  width: min(620px, 100%);
-
-  margin-top: 44px;
-  padding: 26px 30px;
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-
-  background: rgba(8, 12, 9, 0.75);
-
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.45),
-    inset 0 1px rgba(255, 255, 255, 0.025);
-
-  backdrop-filter: blur(14px);
-}
-
-/* Terminal line */
-
-.epsilon-boot-line {
-  display: flex;
-  align-items: center;
-
-  min-height: 30px;
-
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    "Liberation Mono",
-    monospace;
-
-  font-size: 12px;
-  letter-spacing: 0.08em;
-
-  color: rgba(245, 247, 242, 0.45);
+  letter-spacing: 0.55em;
+  text-indent: 0.55em;
 
   opacity: 0;
-  transform: translateY(8px);
 
-  animation: epsilon-line-in 450ms ease forwards;
+  animation:
+    epsilonBootBrandIn
+    700ms
+    300ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
 }
 
-.epsilon-boot-line.active {
-  color: #f5f7f2;
-}
-
-@keyframes epsilon-line-in {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.epsilon-prompt {
-  margin-right: 12px;
-
-  color: #baff24;
-}
-
-.epsilon-status {
-  margin-left: auto;
-
-  color: #baff24;
-
-  font-size: 10px;
-  letter-spacing: 0.15em;
-}
-
-/* Online */
-
-.epsilon-online {
-  margin-top: 26px;
-
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  color: #baff24;
-
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    monospace;
-
-  font-size: 11px;
-
-  letter-spacing: 0.18em;
-
-  animation: epsilon-online-in 500ms ease forwards;
-}
-
-@keyframes epsilon-online-in {
+@keyframes epsilonBootBrandIn {
   from {
     opacity: 0;
     transform: translateY(8px);
@@ -631,305 +392,193 @@ select {
   }
 }
 
-.epsilon-online-dot {
-  width: 7px;
-  height: 7px;
+/* =========================================================
+   BOOT STATUS
+   ========================================================= */
 
-  border-radius: 50%;
+.epsilon-boot-status {
+  width: 100%;
 
-  background: #baff24;
+  display: flex;
+  justify-content: space-between;
 
-  box-shadow:
-    0 0 12px rgba(190, 255, 40, 0.9);
-}
+  margin-top: 45px;
 
-/* Footer */
-
-.epsilon-boot-footer {
-  position: absolute;
-
-  left: 28px;
-  bottom: 28px;
-
-  color: rgba(245, 247, 242, 0.3);
+  color: #7f887f;
 
   font-family:
     "SFMono-Regular",
     Consolas,
+    "Liberation Mono",
     monospace;
 
-  font-size: 9px;
-
+  font-size: 10px;
   letter-spacing: 0.18em;
 }
 
-/* Mobile */
-
-@media (max-width: 640px) {
-  .epsilon-boot-terminal {
-    padding: 20px;
-  }
-
-  .epsilon-boot-line {
-    font-size: 10px;
-  }
-
-  .epsilon-boot-footer {
-    left: 20px;
-    bottom: 20px;
-    font-size: 8px;
-  }
-}
 /* =========================================================
-   EPSILON — CINEMATIC BOOT SEQUENCE
+   BOOT PROGRESS
    ========================================================= */
 
-/* ---------------------------------------------------------
-   Ambient glow
-   --------------------------------------------------------- */
+.epsilon-boot-progress {
+  width: 100%;
+  height: 2px;
 
-
-/* ---------------------------------------------------------
-   Grid
-   --------------------------------------------------------- */
-
-
-
-
-/* ---------------------------------------------------------
-   Center
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   Symbol
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   Brand
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   Status
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   Progress
-   --------------------------------------------------------- */
-
-
-/* ---------------------------------------------------------
-   Ready
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   Bottom metadata
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   Mobile
-   --------------------------------------------------------- */
-
-@media (max-width: 640px) {
-  .epsilon-boot-symbol {
-    width: 68px;
-    height: 68px;
-
-    font-size: 36px;
-
-    border-radius: 19px;
-  }
-
-  .epsilon-boot-brand {
-    font-size: 13px;
-    letter-spacing: 0.4em;
-  }
-
-  .epsilon-boot-status {
-    margin-top: 45px;
-  }
-
-  .epsilon-boot-meta {
-    left: 18px;
-    right: 18px;
-    bottom: 20px;
-
-    font-size: 7px;
-  }
-
-  .epsilon-boot-meta span:nth-child(2) {
-    display: none;
-  }
-}
-
-
-/* ---------------------------------------------------------
-   Reduced motion
-   --------------------------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-  .epsilon-boot,
-  .epsilon-boot-symbol,
-  .epsilon-boot-brand,
-  .epsilon-boot-status,
-  .epsilon-boot-grid,
-  .epsilon-boot-glow,
-  .epsilon-boot-meta {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  .epsilon-boot {
-    opacity: 1;
-  }
-
-  .epsilon-boot-symbol,
-  .epsilon-boot-brand,
-  .epsilon-boot-status,
-  .epsilon-boot-meta {
-    opacity: 1;
-    transform: none;
-  }
-}
-/* =========================================================
-   EPSILON — CINEMATIC BOOT SEQUENCE
-   ========================================================= */
-
-.epsilon-boot {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-top: 10px;
 
   overflow: hidden;
 
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(190, 255, 0, 0.055),
-      transparent 38%
-    ),
-    #050805;
-
-  color: #f5f7f2;
-
-  opacity: 1;
-  transform: scale(1);
-
-  transition:
-    opacity 650ms cubic-bezier(0.76, 0, 0.24, 1),
-    transform 800ms cubic-bezier(0.76, 0, 0.24, 1);
+  background: rgba(255, 255, 255, 0.08);
 }
 
+.epsilon-boot-progress-bar {
+  height: 100%;
 
+  background: #b8ff00;
 
-/* ---------------------------------------------------------
-   Ambient glow
-   --------------------------------------------------------- */
+  box-shadow:
+    0 0 12px rgba(184, 255, 0, 0.7);
 
-
-
-/* ---------------------------------------------------------
-   Grid
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   Center
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   Mobile
-   --------------------------------------------------------- */
-
-@media (max-width: 640px) {
-  .epsilon-boot-symbol {
-    width: 68px;
-    height: 68px;
-
-    font-size: 36px;
-
-    border-radius: 19px;
-  }
-
-  .epsilon-boot-brand {
-    font-size: 13px;
-    letter-spacing: 0.4em;
-  }
-
-  .epsilon-boot-status {
-    margin-top: 45px;
-  }
-
-  .epsilon-boot-meta {
-    left: 18px;
-    right: 18px;
-    bottom: 20px;
-
-    font-size: 7px;
-  }
-
-  .epsilon-boot-meta span:nth-child(2) {
-    display: none;
-  }
-}
-
-
-/* ---------------------------------------------------------
-   Reduced motion
-   --------------------------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-  .epsilon-boot,
-  .epsilon-boot-symbol,
-  .epsilon-boot-brand,
-  .epsilon-boot-status,
-  .epsilon-boot-grid,
-  .epsilon-boot-glow,
-  .epsilon-boot-meta {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  .epsilon-boot {
-    opacity: 1;
-  }
-
-  .epsilon-boot-symbol,
-  .epsilon-boot-brand,
-  .epsilon-boot-status,
-  .epsilon-boot-meta {
-    opacity: 1;
-    transform: none;
-  }
+  transition: width 90ms linear;
 }
 
 /* =========================================================
-   NAVBAR
+   BOOT READY
+   ========================================================= */
+
+.epsilon-boot-ready {
+  margin-top: 18px;
+
+  color: #b8ff00;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-size: 10px;
+  letter-spacing: 0.35em;
+
+  opacity: 0;
+  transform: translateY(5px);
+
+  transition:
+    opacity 350ms ease,
+    transform 350ms ease;
+}
+
+.epsilon-boot-ready.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   BOOT META
+   ========================================================= */
+
+.epsilon-boot-meta {
+  position: absolute;
+
+  left: 35px;
+  right: 35px;
+  bottom: 30px;
+
+  display: flex;
+  justify-content: space-between;
+
+  color: rgba(255, 255, 255, 0.25);
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-size: 8px;
+  letter-spacing: 0.16em;
+}
+
+/* =========================================================
+   BOOT EXIT
+   ========================================================= */
+
+.epsilon-boot-exiting {
+  opacity: 0;
+
+  transform:
+    scale(1.035)
+    translateY(-8px);
+
+  filter: blur(4px);
+
+  pointer-events: none;
+
+  transition:
+    opacity 750ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 750ms ease;
+}
+
+/* =========================================================
+   LANDING PAGE REVEAL
+   ========================================================= */
+
+/*
+   This works with:
+     <div className="epsilon-page">
+       ...landing page...
+     </div>
+
+   EpsilonBootSequence adds "epsilon-site-ready" to body
+   before the boot overlay exits.
+*/
+
+.epsilon-page {
+  opacity: 0;
+
+  transform:
+    translateY(18px)
+    scale(0.985);
+
+  filter: blur(10px);
+
+  transform-origin: center top;
+
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  will-change:
+    opacity,
+    transform,
+    filter;
+}
+
+.epsilon-site-ready .epsilon-page {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter: blur(0);
+
+  transition-delay: 80ms;
+}
+
+/* =========================================================
+   NAVBAR LANDING REVEAL
    ========================================================= */
 
 body.epsilon-site-ready .epsilon-site nav {
   animation:
-    epsilonNavbarReveal 850ms
+    epsilonNavbarReveal
+    850ms
     cubic-bezier(0.16, 1, 0.3, 1)
-    100ms both;
+    100ms
+    both;
 }
 
 @keyframes epsilonNavbarReveal {
@@ -944,59 +593,26 @@ body.epsilon-site-ready .epsilon-site nav {
   }
 }
 
-
 /* =========================================================
-   HERO
+   HERO LANDING REVEAL
    ========================================================= */
 
-/*
-   Hero itself enters first.
-*/
-
-body.epsilon-site-ready .epsilon-site section:first-of-type {
+body.epsilon-site-ready
+.epsilon-site
+section:first-of-type {
   animation:
-    epsilonHeroReveal 1.1s
+    epsilonHeroReveal
+    1.1s
     cubic-bezier(0.16, 1, 0.3, 1)
-    180ms both;
+    180ms
+    both;
 }
 
 @keyframes epsilonHeroReveal {
   from {
     opacity: 0;
     transform: translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-/* =========================================================
-   HERO CONTENT
-   ========================================================= */
-
-/*
-   These selectors target the major pieces inside the
-   Hero without changing your React structure.
-*/
-
-body.epsilon-site-ready
-.epsilon-site
-section:first-of-type
-h1 {
-  animation:
-    epsilonHeadingReveal 900ms
-    cubic-bezier(0.16, 1, 0.3, 1)
-    350ms both;
-}
-
-@keyframes epsilonHeadingReveal {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-    filter: blur(6px);
+    filter: blur(3px);
   }
 
   to {
@@ -1006,17 +622,54 @@ h1 {
   }
 }
 
+/* =========================================================
+   HERO HEADING
+   ========================================================= */
 
-/* Paragraph */
+body.epsilon-site-ready
+.epsilon-site
+section:first-of-type
+h1 {
+  animation:
+    epsilonHeadingReveal
+    900ms
+    cubic-bezier(0.16, 1, 0.3, 1)
+    350ms
+    both;
+}
+
+@keyframes epsilonHeadingReveal {
+  from {
+    opacity: 0;
+    transform:
+      translateY(30px)
+      scale(0.985);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+    filter: blur(0);
+  }
+}
+
+/* =========================================================
+   HERO PARAGRAPH
+   ========================================================= */
 
 body.epsilon-site-ready
 .epsilon-site
 section:first-of-type
 p {
   animation:
-    epsilonParagraphReveal 850ms
+    epsilonParagraphReveal
+    850ms
     cubic-bezier(0.16, 1, 0.3, 1)
-    500ms both;
+    500ms
+    both;
 }
 
 @keyframes epsilonParagraphReveal {
@@ -1031,8 +684,9 @@ p {
   }
 }
 
-
-/* Buttons */
+/* =========================================================
+   HERO BUTTONS
+   ========================================================= */
 
 body.epsilon-site-ready
 .epsilon-site
@@ -1043,26 +697,31 @@ body.epsilon-site-ready
 section:first-of-type
 button {
   animation:
-    epsilonButtonReveal 750ms
+    epsilonButtonReveal
+    750ms
     cubic-bezier(0.16, 1, 0.3, 1)
-    650ms both;
+    650ms
+    both;
 }
 
 @keyframes epsilonButtonReveal {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.98);
+    transform:
+      translateY(16px)
+      scale(0.98);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform:
+      translateY(0)
+      scale(1);
   }
 }
 
-
 /* =========================================================
-   EDITOR PREVIEW
+   HERO EDITOR PREVIEW
    ========================================================= */
 
 body.epsilon-site-ready
@@ -1070,9 +729,11 @@ body.epsilon-site-ready
 section:first-of-type
 [class*="EditorPreview"] {
   animation:
-    epsilonEditorReveal 1.15s
+    epsilonEditorReveal
+    1.15s
     cubic-bezier(0.16, 1, 0.3, 1)
-    780ms both;
+    780ms
+    both;
 }
 
 @keyframes epsilonEditorReveal {
@@ -1097,13 +758,177 @@ section:first-of-type
   }
 }
 
-
 /* =========================================================
-   REDUCE THE "POP"
+   PAGE-TO-PAGE TRANSITIONS
    ========================================================= */
 
-body.epsilon-site-ready .epsilon-site > * {
-  will-change: transform, opacity;
+/*
+   PageTransition.tsx controls these classes.
+   Initial load remains fully visible so the boot can work.
+*/
+
+.epsilon-page-transition {
+  min-height: 100vh;
+
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter: blur(0);
+
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.epsilon-page-transitioning {
+  opacity: 0;
+
+  transform:
+    translateY(8px)
+    scale(0.995);
+
+  filter: blur(4px);
+}
+
+/* =========================================================
+   RESPONSIVE — BOOT
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .epsilon-boot-center {
+    width: min(360px, 82vw);
+  }
+
+  .epsilon-boot-symbol {
+    width: 68px;
+    height: 68px;
+
+    font-size: 36px;
+
+    border-radius: 19px;
+  }
+
+  .epsilon-boot-brand {
+    font-size: 13px;
+    letter-spacing: 0.4em;
+  }
+
+  .epsilon-boot-status {
+    margin-top: 45px;
+
+    width: min(320px, 78vw);
+  }
+
+  .epsilon-boot-progress {
+    width: min(320px, 78vw);
+  }
+
+  .epsilon-boot-meta {
+    left: 18px;
+    right: 18px;
+    bottom: 20px;
+
+    font-size: 7px;
+  }
+
+  .epsilon-boot-meta span:nth-child(2) {
+    display: none;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY — REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .epsilon-boot,
+  .epsilon-boot *,
+  .epsilon-page,
+  .epsilon-page-transition,
+  .epsilon-site-ready .epsilon-site,
+  body.epsilon-site-ready .epsilon-site * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .epsilon-boot {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .epsilon-page {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .epsilon-page-transition {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+/* =========================================================
+   EPSILON — FINAL BOOT → WEBSITE REVEAL
+   ========================================================= */
+
+.epsilon-site {
+  min-height: 100vh;
+
+  opacity: 0;
+
+  transform:
+    translateY(25px)
+    scale(0.94);
+
+  filter: blur(10px);
+
+  transform-origin: center center;
+
+  transition:
+    opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1400ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.epsilon-site-ready .epsilon-site {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter: blur(0);
+}
+
+
+/* =========================================================
+   BOOT EXIT
+   ========================================================= */
+
+.epsilon-boot.epsilon-boot-exiting {
+  opacity: 0 !important;
+
+  transform:
+    scale(1.08)
+    translateY(-4px) !important;
+
+  filter: blur(3px) !important;
+
+  pointer-events: none !important;
+}
+
+
+/* =========================================================
+   PREVENT PAGE SCROLL DURING BOOT
+   ========================================================= */
+
+body:not(.epsilon-site-ready) {
+  overflow: hidden;
 }
 
 
@@ -1115,1268 +940,40 @@ body.epsilon-site-ready .epsilon-site > * {
   .epsilon-site {
     opacity: 1;
     transform: none;
+    filter: none;
+    transition: none;
   }
-
-  body.epsilon-site-ready .epsilon-site,
-  body.epsilon-site-ready .epsilon-site * {
-    animation: none !important;
-  }
-}
-/* =========================================================
-   EPSILON — CINEMATIC BOOT + LANDING REVEAL
-   ========================================================= */
-
-/* ---------------------------------------------------------
-   WEBSITE
-   --------------------------------------------------------- */
-
-/*
-   IMPORTANT:
-   The website itself is ALWAYS visible.
-
-   The boot screen sits above it.
-   This prevents the page from ever getting stuck blank.
-*/
-
-.epsilon-site {
-  opacity: 1;
-  transform: none;
-}
-
-
-/* ---------------------------------------------------------
-   BOOT SCREEN
-   --------------------------------------------------------- */
-
-.epsilon-boot {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(190, 255, 40, 0.08),
-      transparent 36%
-    ),
-    #050805;
-
-  color: #f5f7f2;
-
-  opacity: 1;
-  transform: scale(1);
-
-  transition:
-    opacity 700ms cubic-bezier(0.76, 0, 0.24, 1),
-    transform 900ms cubic-bezier(0.76, 0, 0.24, 1);
-}
-
-
-/* Boot leaving */
-
-.epsilon-boot-finished {
-  opacity: 0;
-  transform: scale(1.035);
-  pointer-events: none;
-}
-
-
-/* ---------------------------------------------------------
-   AMBIENT GLOW
-   --------------------------------------------------------- */
-
-.epsilon-boot-glow {
-  position: absolute;
-
-  width: 42vw;
-  height: 42vw;
-
-  max-width: 650px;
-  max-height: 650px;
-
-  border-radius: 999px;
-
-  background: rgba(190, 255, 0, 0.08);
-
-  filter: blur(110px);
-
-  opacity: 0;
-
-  animation:
-    epsilonBootGlow
-    1.4s
-    ease-out
-    forwards;
-}
-
-@keyframes epsilonBootGlow {
-
-  from {
-    opacity: 0;
-    transform: scale(0.65);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-}
-
-
-/* ---------------------------------------------------------
-   GRID
-   --------------------------------------------------------- */
-
-.epsilon-boot-grid {
-  position: absolute;
-  inset: 0;
-
-  background-image:
-    linear-gradient(
-      rgba(255,255,255,0.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,0.035) 1px,
-      transparent 1px
-    );
-
-  background-size: 56px 56px;
-
-  mask-image:
-    radial-gradient(
-      ellipse at center,
-      black 0%,
-      transparent 72%
-    );
-
-  opacity: 0;
-
-  animation:
-    epsilonBootGrid
-    1.2s
-    ease-out
-    forwards;
-}
-
-@keyframes epsilonBootGrid {
-
-  from {
-    opacity: 0;
-    transform: scale(1.08);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-}
-
-
-/* ---------------------------------------------------------
-   CENTER
-   --------------------------------------------------------- */
-
-.epsilon-boot-content {
-  position: relative;
-  z-index: 2;
-
-  width: min(620px, calc(100% - 40px));
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-/* ---------------------------------------------------------
-   SYMBOL
-   --------------------------------------------------------- */
-
-.epsilon-symbol {
-
-  width: 76px;
-  height: 76px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border:
-    1px solid
-    rgba(190,255,0,0.45);
-
-  border-radius: 22px;
-
-  color: #baff00;
-
-  font-family: Georgia, serif;
-
-  font-size: 42px;
-
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(190,255,0,0.10),
-      rgba(190,255,0,0.015)
-    );
-
-  box-shadow:
-    0 0 0 1px rgba(190,255,0,0.03),
-    0 0 55px rgba(190,255,0,0.08);
-
-  opacity: 0;
-
-  animation:
-    epsilonSymbolIn
-    700ms
-    cubic-bezier(0.16,1,0.3,1)
-    100ms
-    forwards;
-}
-
-@keyframes epsilonSymbolIn {
-
-  from {
-    opacity: 0;
-    transform:
-      scale(0.72)
-      translateY(12px);
-  }
-
-  to {
-    opacity: 1;
-    transform:
-      scale(1)
-      translateY(0);
-  }
-
-}
-
-
-/* ---------------------------------------------------------
-   BRAND
-   --------------------------------------------------------- */
-
-.epsilon-boot-brand {
-
-  margin-top: 26px;
-
-  font-size: 15px;
-
-  font-weight: 600;
-
-  letter-spacing: 0.48em;
-
-  color:
-    rgba(255,255,255,0.94);
-
-  opacity: 0;
-
-  transform: translateY(8px);
-
-  animation:
-    epsilonBrandIn
-    600ms
-    cubic-bezier(0.16,1,0.3,1)
-    300ms
-    forwards;
-}
-
-@keyframes epsilonBrandIn {
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-}
-
-
-/* ---------------------------------------------------------
-   TITLE
-   --------------------------------------------------------- */
-
-.epsilon-boot-title {
-
-  margin-top: 12px;
-
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    monospace;
-
-  font-size: 10px;
-
-  letter-spacing: 0.4em;
-
-  color: #baff00;
-
-  opacity: 0;
-
-  animation:
-    epsilonTitleIn
-    500ms
-    ease
-    500ms
-    forwards;
-}
-
-@keyframes epsilonTitleIn {
-
-  to {
-    opacity: 1;
-  }
-
-}
-
-
-/* ---------------------------------------------------------
-   TERMINAL
-   --------------------------------------------------------- */
-
-.epsilon-boot-terminal {
-
-  width: min(620px, 100%);
-
-  margin-top: 38px;
-
-  padding: 24px 28px;
-
-  border:
-    1px solid
-    rgba(255,255,255,0.08);
-
-  border-radius: 18px;
-
-  background:
-    rgba(8,12,9,0.72);
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,0.45),
-    inset 0 1px rgba(255,255,255,0.025);
-
-  backdrop-filter: blur(14px);
-}
-
-
-/* ---------------------------------------------------------
-   TERMINAL LINES
-   --------------------------------------------------------- */
-
-.epsilon-boot-line {
-
-  display: flex;
-
-  align-items: center;
-
-  min-height: 30px;
-
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    "Liberation Mono",
-    monospace;
-
-  font-size: 11px;
-
-  letter-spacing: 0.07em;
-
-  color:
-    rgba(245,247,242,0.48);
-
-  opacity: 0;
-
-  transform: translateY(8px);
-
-  animation:
-    epsilonLineIn
-    400ms
-    ease
-    forwards;
-}
-
-.epsilon-boot-line.active {
-  color: #f5f7f2;
-}
-
-.epsilon-prompt {
-
-  margin-right: 12px;
-
-  color: #baff00;
-}
-
-@keyframes epsilonLineIn {
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-}
-
-
-/* ---------------------------------------------------------
-   ONLINE
-   --------------------------------------------------------- */
-
-.epsilon-online {
-
-  margin-top: 24px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  color: #baff00;
-
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    monospace;
-
-  font-size: 10px;
-
-  letter-spacing: 0.18em;
-
-  animation:
-    epsilonOnlineIn
-    500ms
-    ease
-    forwards;
-}
-
-.epsilon-online-dot {
-
-  width: 7px;
-  height: 7px;
-
-  border-radius: 50%;
-
-  background: #baff00;
-
-  box-shadow:
-    0 0 12px
-    rgba(190,255,0,0.9);
-}
-
-@keyframes epsilonOnlineIn {
-
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-}
-
-
-/* ---------------------------------------------------------
-   FOOTER
-   --------------------------------------------------------- */
-
-.epsilon-boot-footer {
-
-  position: absolute;
-
-  left: 28px;
-  bottom: 28px;
-
-  color:
-    rgba(245,247,242,0.3);
-
-  font-family:
-    "SFMono-Regular",
-    Consolas,
-    monospace;
-
-  font-size: 8px;
-
-  letter-spacing: 0.18em;
-}
-
-
-/* ---------------------------------------------------------
-   SKIP
-   --------------------------------------------------------- */
-
-.epsilon-skip {
-
-  position: absolute;
-
-  right: 28px;
-  bottom: 25px;
-
-  z-index: 10;
-
-  padding: 7px 12px;
-
-  border:
-    1px solid
-    rgba(255,255,255,0.12);
-
-  border-radius: 6px;
-
-  background: transparent;
-
-  color:
-    rgba(255,255,255,0.4);
-
-  font-family: monospace;
-
-  font-size: 9px;
-
-  letter-spacing: 0.12em;
-
-  transition:
-    color 200ms ease,
-    border-color 200ms ease,
-    background 200ms ease;
-}
-
-.epsilon-skip:hover {
-
-  color: #baff00;
-
-  border-color:
-    rgba(190,255,0,0.4);
-
-  background:
-    rgba(190,255,0,0.04);
-}
-
-
-/* =========================================================
-   PREMIUM LANDING REVEAL
-   ========================================================= */
-
-/*
-   Navbar
-*/
-
-body.epsilon-site-ready .epsilon-site nav {
-
-  animation:
-    epsilonNavbarReveal
-    850ms
-    cubic-bezier(0.16,1,0.3,1)
-    50ms
-    both;
-}
-
-@keyframes epsilonNavbarReveal {
-
-  from {
-    opacity: 0;
-    transform: translateY(-12px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-}
-
-
-/*
-   Hero
-*/
-
-body.epsilon-site-ready
-.epsilon-site
-section:first-of-type {
-
-  animation:
-    epsilonHeroReveal
-    1000ms
-    cubic-bezier(0.16,1,0.3,1)
-    120ms
-    both;
-}
-
-@keyframes epsilonHeroReveal {
-
-  from {
-    opacity: 0;
-    transform: translateY(22px);
-    filter: blur(3px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-
-}
-
-
-/*
-   Heading
-*/
-
-body.epsilon-site-ready
-.epsilon-site
-section:first-of-type
-h1 {
-
-  animation:
-    epsilonHeadingReveal
-    850ms
-    cubic-bezier(0.16,1,0.3,1)
-    250ms
-    both;
-}
-
-@keyframes epsilonHeadingReveal {
-
-  from {
-    opacity: 0;
-    transform:
-      translateY(24px)
-      scale(0.985);
-
-    filter: blur(6px);
-  }
-
-  to {
-    opacity: 1;
-    transform:
-      translateY(0)
-      scale(1);
-
-    filter: blur(0);
-  }
-
-}
-
-
-/*
-   Paragraph
-*/
-
-body.epsilon-site-ready
-.epsilon-site
-section:first-of-type
-p {
-
-  animation:
-    epsilonParagraphReveal
-    800ms
-    cubic-bezier(0.16,1,0.3,1)
-    400ms
-    both;
-}
-
-@keyframes epsilonParagraphReveal {
-
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-}
-
-
-/*
-   Buttons
-*/
-
-body.epsilon-site-ready
-.epsilon-site
-section:first-of-type
-a,
-body.epsilon-site-ready
-.epsilon-site
-section:first-of-type
-button {
-
-  animation:
-    epsilonButtonReveal
-    700ms
-    cubic-bezier(0.16,1,0.3,1)
-    520ms
-    both;
-}
-
-@keyframes epsilonButtonReveal {
-
-  from {
-    opacity: 0;
-    transform:
-      translateY(14px)
-      scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform:
-      translateY(0)
-      scale(1);
-  }
-
-}
-
-
-/*
-   Editor
-*/
-
-body.epsilon-site-ready
-.epsilon-site
-section:first-of-type
-[class*="EditorPreview"] {
-
-  animation:
-    epsilonEditorReveal
-    1100ms
-    cubic-bezier(0.16,1,0.3,1)
-    650ms
-    both;
-}
-
-@keyframes epsilonEditorReveal {
-
-  from {
-    opacity: 0;
-    transform:
-      translateY(40px)
-      scale(0.975);
-
-    filter: blur(5px);
-  }
-
-  to {
-    opacity: 1;
-    transform:
-      translateY(0)
-      scale(1);
-
-    filter: blur(0);
-  }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
 
   .epsilon-boot,
-  .epsilon-boot *,
-  .epsilon-site,
-  .epsilon-site * {
-
-    animation: none !important;
-    transition: none !important;
+  .epsilon-boot-exiting {
+    transition: opacity 300ms ease;
   }
-
-  .epsilon-boot {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .epsilon-site {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 640px) {
-
-  .epsilon-boot-symbol {
-    width: 66px;
-    height: 66px;
-    font-size: 36px;
-    border-radius: 19px;
-  }
-
-  .epsilon-boot-brand {
-    font-size: 13px;
-    letter-spacing: 0.4em;
-  }
-
-  .epsilon-boot-terminal {
-    padding: 20px;
-  }
-
-  .epsilon-boot-line {
-    font-size: 9px;
-  }
-
-  .epsilon-boot-footer {
-    left: 18px;
-    bottom: 18px;
-    font-size: 7px;
-  }
-
-  .epsilon-skip {
-    right: 18px;
-    bottom: 18px;
-  }
-
 }
 /* =========================================================
-   EPSILON — PREMIUM BOOT SEQUENCE
+   EPSILON BOOT — VISIBILITY SAFETY
    ========================================================= */
 
 .epsilon-boot {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
+  position: fixed !important;
+  inset: 0 !important;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100vw !important;
+  height: 100vh !important;
 
-  overflow: hidden;
+  display: flex !important;
 
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(184, 255, 0, 0.10),
-      transparent 35%
-    ),
-    #050805;
+  align-items: center !important;
+  justify-content: center !important;
 
-  color: #b8ff00;
+  z-index: 2147483647 !important;
 
-  opacity: 1;
-  visibility: visible;
+  opacity: 1 !important;
+  visibility: visible !important;
 
-  transition:
-    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: auto !important;
 
-  transform: scale(1);
-}
+  background: #050805 !important;
 
-/* ---------------------------------------------------------
-   GRID
-   --------------------------------------------------------- */
-
-.epsilon-boot-grid {
-  position: absolute;
-  inset: 0;
-
-  display: block;
-
-  background-image:
-    linear-gradient(
-      rgba(184, 255, 0, 0.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(184, 255, 0, 0.035) 1px,
-      transparent 1px
-    );
-
-  background-size: 50px 50px;
-
-  mask-image: radial-gradient(
-    circle at center,
-    black,
-    transparent 75%
-  );
-
-  pointer-events: none;
-}
-
-/* ---------------------------------------------------------
-   AMBIENT GLOW
-   --------------------------------------------------------- */
-
-.epsilon-boot-glow {
-  position: absolute;
-
-  width: 420px;
-  height: 420px;
-
-  border-radius: 50%;
-
-  background: rgba(184, 255, 0, 0.08);
-
-  filter: blur(100px);
-
-  opacity: 0.7;
-
-  animation: epsilonGlow 3s ease-in-out infinite;
-
-  pointer-events: none;
-}
-
-@keyframes epsilonGlow {
-  0%,
-  100% {
-    transform: scale(0.9);
-    opacity: 0.45;
-  }
-
-  50% {
-    transform: scale(1.15);
-    opacity: 0.8;
-  }
-}
-
-/* ---------------------------------------------------------
-   CENTER
-   --------------------------------------------------------- */
-
-.epsilon-boot-center {
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: min(420px, 80vw);
-
-  transform: translateY(0);
-
-  animation: epsilonBootEntry 900ms
-    cubic-bezier(0.22, 1, 0.36, 1)
-    both;
-}
-
-@keyframes epsilonBootEntry {
-  from {
-    opacity: 0;
-    transform: translateY(18px) scale(0.97);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ---------------------------------------------------------
-   SYMBOL
-   --------------------------------------------------------- */
-
-.epsilon-boot-symbol {
-  width: 82px;
-  height: 82px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid rgba(184, 255, 0, 0.45);
-
-  border-radius: 22px;
-
-  background: rgba(184, 255, 0, 0.035);
-
-  box-shadow:
-    0 0 0 1px rgba(184, 255, 0, 0.04),
-    0 0 50px rgba(184, 255, 0, 0.08);
-
-  font-size: 42px;
-  font-weight: 400;
-
-  color: #b8ff00;
-
-  animation: epsilonSymbolPulse 2.5s
-    ease-in-out infinite;
-}
-
-@keyframes epsilonSymbolPulse {
-  0%,
-  100% {
-    box-shadow:
-      0 0 0 1px rgba(184, 255, 0, 0.04),
-      0 0 35px rgba(184, 255, 0, 0.06);
-  }
-
-  50% {
-    box-shadow:
-      0 0 0 1px rgba(184, 255, 0, 0.12),
-      0 0 60px rgba(184, 255, 0, 0.16);
-  }
-}
-
-/* ---------------------------------------------------------
-   BRAND
-   --------------------------------------------------------- */
-
-.epsilon-boot-brand {
-  margin-top: 24px;
-
-  color: white;
-
-  font-size: 16px;
-  font-weight: 600;
-
-  letter-spacing: 0.55em;
-
-  text-indent: 0.55em;
-
-  opacity: 0;
-
-  animation: epsilonFadeUp 700ms
-    300ms
-    cubic-bezier(0.22, 1, 0.36, 1)
-    forwards;
-}
-
-/* ---------------------------------------------------------
-   STATUS
-   --------------------------------------------------------- */
-
-.epsilon-boot-status {
-  width: 100%;
-
-  display: flex;
-  justify-content: space-between;
-
-  margin-top: 45px;
-
-  color: #7f887f;
-
-  font-family: monospace;
-
-  font-size: 10px;
-
-  letter-spacing: 0.18em;
-}
-
-/* ---------------------------------------------------------
-   PROGRESS
-   --------------------------------------------------------- */
-
-.epsilon-boot-progress {
-  width: 100%;
-  height: 2px;
-
-  margin-top: 10px;
-
-  overflow: hidden;
-
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.epsilon-boot-progress-bar {
-  height: 100%;
-
-  background: #b8ff00;
-
-  box-shadow:
-    0 0 12px rgba(184, 255, 0, 0.7);
-
-  transition: width 90ms linear;
-}
-
-/* ---------------------------------------------------------
-   READY
-   --------------------------------------------------------- */
-
-.epsilon-boot-ready {
-  margin-top: 18px;
-
-  color: #b8ff00;
-
-  font-family: monospace;
-
-  font-size: 10px;
-
-  letter-spacing: 0.35em;
-
-  opacity: 0;
-
-  transform: translateY(5px);
-
-  transition:
-    opacity 350ms ease,
-    transform 350ms ease;
-}
-
-.epsilon-boot-ready.visible {
-  opacity: 1;
-
-  transform: translateY(0);
-}
-
-/* ---------------------------------------------------------
-   FOOTER
-   --------------------------------------------------------- */
-
-.epsilon-boot-meta {
-  position: absolute;
-
-  bottom: 30px;
-  left: 35px;
-  right: 35px;
-
-  display: flex;
-  justify-content: space-between;
-
-  color: rgba(255, 255, 255, 0.25);
-
-  font-family: monospace;
-
-  font-size: 8px;
-
-  letter-spacing: 0.16em;
-}
-
-/* ---------------------------------------------------------
-   EXIT
-   --------------------------------------------------------- */
-
-.epsilon-boot-exiting {
-  opacity: 0;
-
-  transform:
-    scale(1.035)
-    translateY(-8px);
-
-  filter: blur(4px);
-
-  pointer-events: none;
-
-  transition:
-    opacity 750ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 750ms ease;
-}
-
-/* ---------------------------------------------------------
-   HERO REVEAL
-   --------------------------------------------------------- */
-
-
-
-/* ---------------------------------------------------------
-   SMALL SCREENS
-   --------------------------------------------------------- */
-
-@media (max-width: 640px) {
-  .epsilon-boot-meta {
-    left: 20px;
-    right: 20px;
-
-    font-size: 7px;
-  }
-
-  .epsilon-boot-status,
-  .epsilon-boot-progress {
-    width: min(320px, 78vw);
-  }
-
-  .epsilon-boot-symbol {
-    width: 72px;
-    height: 72px;
-
-    font-size: 36px;
-  }
-}
-
-/* ---------------------------------------------------------
-   ACCESSIBILITY
-   --------------------------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-  .epsilon-boot,
-  .epsilon-boot-center,
-  .epsilon-boot-symbol,
-  .epsilon-boot-brand,
-  .epsilon-boot-glow {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-/* =========================================================
-   EPSILON — PREMIUM PAGE REVEAL
-   ========================================================= */
-
-.epsilon-page {
-  opacity: 0;
-
-  transform:
-    translateY(18px)
-    scale(0.985);
-
-  filter: blur(10px);
-
-  transform-origin: center top;
-
-  transition:
-    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 1000ms cubic-bezier(0.22, 1, 0.36, 1);
-
-  will-change:
-    opacity,
-    transform,
-    filter;
-}
-
-
-/* Website becomes visible after boot */
-
-.epsilon-site-ready .epsilon-page {
-  opacity: 1;
-
-  transform:
-    translateY(0)
-    scale(1);
-
-  filter: blur(0);
-
-  transition-delay: 80ms;
-}
-/* =========================================================
-   EPSILON — PAGE TRANSITIONS
-   ========================================================= */
-
-.epsilon-page-transition {
-  min-height: 100vh;
-
-  opacity: 0;
-  transform: translateY(10px) scale(0.992);
-  filter: blur(5px);
-
-  transition:
-    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
-    filter 450ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.epsilon-page-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
+  transform: none !important;
+  filter: none !important;
 }
