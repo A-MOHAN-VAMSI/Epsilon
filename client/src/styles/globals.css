@@ -74,6 +74,14 @@ img {
   }
 }
 
+.epsilon-boot-grid {
+  background-image:
+    linear-gradient(to right, rgba(199, 255, 36, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(199, 255, 36, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at center, black, transparent 78%);
+}
+
 /* ===========================
    INPUTS
 =========================== */
@@ -112,4 +120,476 @@ select {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent);
+}
+/* =========================================================
+   EPSILON BOOT SEQUENCE
+   ========================================================= */
+
+.epsilon-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background: #050705;
+  color: #f4f7f2;
+
+  animation: epsilonBootEnter 0.5s ease-out forwards;
+}
+
+.epsilon-boot-finished {
+  animation: epsilonBootExit 0.75s cubic-bezier(0.76, 0, 0.24, 1)
+    forwards;
+  pointer-events: none;
+}
+
+/* Background grid */
+
+.epsilon-boot-grid {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(200, 255, 61, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(200, 255, 61, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size: 55px 55px;
+
+  mask-image: radial-gradient(
+    ellipse at center,
+    black 0%,
+    rgba(0, 0, 0, 0.7) 45%,
+    transparent 85%
+  );
+}
+
+/* Green ambient glow */
+
+.epsilon-boot::before {
+  content: "";
+
+  position: absolute;
+
+  width: 600px;
+  height: 600px;
+
+  border-radius: 50%;
+
+  background: rgba(200, 255, 61, 0.08);
+
+  filter: blur(120px);
+
+  animation: epsilonGlow 2.5s ease-in-out infinite alternate;
+}
+
+/* Scan line */
+
+.epsilon-scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  height: 1px;
+
+  background: rgba(200, 255, 61, 0.45);
+
+  box-shadow:
+    0 0 15px rgba(200, 255, 61, 0.45),
+    0 0 40px rgba(200, 255, 61, 0.15);
+
+  animation: epsilonScan 2.2s linear infinite;
+}
+
+/* Main content */
+
+.epsilon-boot-content {
+  position: relative;
+
+  width: min(600px, 90vw);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+/* EPSILON symbol */
+
+.epsilon-symbol {
+  width: 72px;
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(200, 255, 61, 0.35);
+  border-radius: 22px;
+
+  background: rgba(200, 255, 61, 0.035);
+
+  color: #c8ff3d;
+
+  font-family: Georgia, serif;
+  font-size: 42px;
+  font-weight: 500;
+
+  box-shadow:
+    0 0 30px rgba(200, 255, 61, 0.08),
+    inset 0 0 30px rgba(200, 255, 61, 0.025);
+
+  animation:
+    epsilonSymbolIn 0.8s ease-out,
+    epsilonSymbolPulse 2s ease-in-out infinite 0.8s;
+}
+
+/* Brand */
+
+.epsilon-boot-brand {
+  margin-top: 18px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 0.45em;
+
+  color: #f4f7f2;
+}
+
+/* SYSTEM BOOT */
+
+.epsilon-boot-title {
+  margin-top: 10px;
+
+  font-family: monospace;
+
+  font-size: 11px;
+
+  letter-spacing: 0.28em;
+
+  color: rgba(200, 255, 61, 0.7);
+
+  animation: epsilonTextIn 0.6s ease-out 0.25s both;
+}
+
+/* Terminal */
+
+.epsilon-boot-terminal {
+  width: min(500px, 90vw);
+
+  margin-top: 38px;
+
+  padding: 18px 22px;
+
+  text-align: left;
+
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.025);
+
+  box-shadow:
+    0 20px 80px rgba(0, 0, 0, 0.35),
+    inset 0 1px rgba(255, 255, 255, 0.025);
+
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 2;
+
+  color: rgba(255, 255, 255, 0.55);
+
+  backdrop-filter: blur(10px);
+}
+
+.epsilon-boot-line {
+  display: flex;
+  gap: 10px;
+
+  white-space: nowrap;
+
+  animation: epsilonLineIn 0.25s ease-out both;
+}
+
+.epsilon-boot-line.active {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.epsilon-prompt {
+  color: #c8ff3d;
+
+  text-shadow:
+    0 0 8px rgba(200, 255, 61, 0.5);
+}
+
+/* Online */
+
+.epsilon-online {
+  margin-top: 25px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  font-family: monospace;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 0.18em;
+
+  color: #c8ff3d;
+
+  animation: epsilonOnlineIn 0.5s ease-out both;
+
+  text-shadow:
+    0 0 15px rgba(200, 255, 61, 0.4);
+}
+
+.epsilon-online-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #c8ff3d;
+
+  box-shadow:
+    0 0 8px rgba(200, 255, 61, 0.8),
+    0 0 18px rgba(200, 255, 61, 0.4);
+}
+
+/* Footer */
+
+.epsilon-boot-footer {
+  position: absolute;
+
+  bottom: 28px;
+  left: 32px;
+
+  font-family: monospace;
+
+  font-size: 9px;
+
+  letter-spacing: 0.16em;
+
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* Skip */
+
+.epsilon-skip {
+  position: absolute;
+
+  right: 30px;
+  bottom: 25px;
+
+  padding: 7px 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+
+  background: transparent;
+
+  color: rgba(255, 255, 255, 0.4);
+
+  font-family: monospace;
+  font-size: 9px;
+
+  letter-spacing: 0.12em;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.epsilon-skip:hover {
+  color: #c8ff3d;
+
+  border-color: rgba(200, 255, 61, 0.4);
+
+  background: rgba(200, 255, 61, 0.04);
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes epsilonBootEnter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes epsilonBootExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.04);
+    visibility: hidden;
+  }
+}
+
+@keyframes epsilonSymbolIn {
+  from {
+    opacity: 0;
+    transform: scale(0.65);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes epsilonSymbolPulse {
+  from {
+    box-shadow:
+      0 0 25px rgba(200, 255, 61, 0.06),
+      inset 0 0 20px rgba(200, 255, 61, 0.02);
+  }
+
+  to {
+    box-shadow:
+      0 0 45px rgba(200, 255, 61, 0.14),
+      inset 0 0 30px rgba(200, 255, 61, 0.04);
+  }
+}
+
+@keyframes epsilonTextIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes epsilonLineIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes epsilonOnlineIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes epsilonGlow {
+  from {
+    transform: scale(0.85);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes epsilonScan {
+  from {
+    top: -5%;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  to {
+    top: 105%;
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .epsilon-boot,
+  .epsilon-boot *,
+  .epsilon-boot::before {
+    animation: none !important;
+  }
+
+  .epsilon-boot {
+    opacity: 1;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .epsilon-boot-terminal {
+    font-size: 9px;
+    padding: 15px;
+  }
+
+  .epsilon-boot-line {
+    gap: 6px;
+  }
+
+  .epsilon-boot-footer {
+    left: 18px;
+    bottom: 18px;
+    font-size: 7px;
+  }
+
+  .epsilon-skip {
+    right: 18px;
+    bottom: 16px;
+  }
 }
