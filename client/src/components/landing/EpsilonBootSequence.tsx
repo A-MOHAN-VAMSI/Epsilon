@@ -2,121 +2,142 @@
 
 import { useEffect, useState } from "react";
 
-const bootMessages = [
-  "INITIALIZING EDITOR ........ OK",
-  "CONNECTING COLLABORATION ... OK",
-  "SYNC ENGINE ................ OK",
-  "AI PAIRING ................. READY",
-  "ENVIRONMENT ................ ONLINE",
-];
-
 export default function EpsilonBootSequence() {
   const [visible, setVisible] = useState(true);
-  const [messageIndex, setMessageIndex] = useState(0);
-  const [finished, setFinished] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
+    // During development, always show the boot sequence.
+    // In production, show it once per browser session.
+    const isDevelopment = process.env.NODE_ENV === "development";
     const alreadySeen = sessionStorage.getItem("epsilon_boot_seen");
 
-    if (alreadySeen === "true") {
+    if (!isDevelopment && alreadySeen === "true") {
+      document.body.classList.add("epsilon-site-ready");
       setVisible(false);
       return;
     }
 
-    sessionStorage.setItem("epsilon_boot_seen", "true");
+    // Clear any previous ready state before starting the boot.
+    document.body.classList.remove("epsilon-site-ready");
 
-    const messageTimer = setInterval(() => {
-      setMessageIndex((current) => {
-        if (current < bootMessages.length - 1) {
-          return current + 1;
-        }
+    if (!isDevelopment) {
+      sessionStorage.setItem("epsilon_boot_seen", "true");
+    }
 
-        clearInterval(messageTimer);
-        return current;
-      });
-    }, 350);
+    const duration = 1200;
 
-    const finishTimer = setTimeout(() => {
-      setFinished(true);
+    let startTime: number | null = null;
+    let animationFrame = 0;
 
-      setTimeout(() => {
-        setVisible(false);
-      }, 700);
-    }, 2400);
+    const animate = (timestamp: number) => {
+      if (startTime === null) {
+        startTime = timestamp;
+      }
+
+      const elapsed = timestamp - startTime;
+      const rawProgress = Math.min(elapsed / duration, 1);
+
+      // Smooth premium easing.
+      const easedProgress =
+        1 - Math.pow(1 - rawProgress, 3);
+
+      setProgress(Math.round(easedProgress * 100));
+
+      if (rawProgress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+        return;
+      }
+
+      // Brief READY state.
+      window.setTimeout(() => {
+        document.body.classList.add("epsilon-site-ready");
+
+        // Begin smooth exit.
+        window.setTimeout(() => {
+          setExiting(true);
+        }, 100);
+
+        // Remove boot layer after transition.
+        window.setTimeout(() => {
+          setVisible(false);
+        }, 900);
+      }, 150);
+    };
+
+    animationFrame = requestAnimationFrame(animate);
 
     return () => {
-      clearInterval(messageTimer);
-      clearTimeout(finishTimer);
+      cancelAnimationFrame(animationFrame);
+      document.body.classList.remove("epsilon-site-ready");
     };
   }, []);
 
-  if (!visible) return null;
+  if (!visible) {
+    return null;
+  }
 
   return (
     <div
       className={`epsilon-boot ${
-        finished ? "epsilon-boot-finished" : ""
+        exiting ? "epsilon-boot-exiting" : ""
       }`}
       aria-label="EPSILON loading"
     >
-      {/* Background grid */}
+      {/* Ambient glow */}
+      <div className="epsilon-boot-glow" />
+
+      {/* Technical grid */}
       <div className="epsilon-boot-grid" />
 
-      {/* Scan line */}
-      <div className="epsilon-scanline" />
+      {/* Center */}
+      <div className="epsilon-boot-center">
 
-      <div className="epsilon-boot-content">
-        {/* EPSILON symbol */}
-        <div className="epsilon-symbol">
+        {/* Logo */}
+        <div className="epsilon-boot-symbol">
           ε
         </div>
 
         {/* Brand */}
         <div className="epsilon-boot-brand">
-          EPSILON
+          E P S I L O N
         </div>
 
-        {/* System status */}
-        <div className="epsilon-boot-title">
-          SYSTEM BOOT
+        {/* Status */}
+        <div className="epsilon-boot-status">
+          <span>INITIALIZING</span>
+          <span>{progress}%</span>
         </div>
 
-        <div className="epsilon-boot-terminal">
-          {bootMessages.slice(0, messageIndex + 1).map((message, index) => (
-            <div
-              key={message}
-              className={`epsilon-boot-line ${
-                index === messageIndex ? "active" : ""
-              }`}
-            >
-              <span className="epsilon-prompt">&gt;</span>
-              <span>{message}</span>
-            </div>
-          ))}
+        {/* Progress */}
+        <div className="epsilon-boot-progress">
+          <div
+            className="epsilon-boot-progress-bar"
+            style={{
+              width: `${progress}%`,
+            }}
+          />
         </div>
 
-        {/* Final state */}
-        {finished && (
-          <div className="epsilon-online">
-            <span className="epsilon-online-dot" />
-            COLLABORATION ONLINE
-          </div>
-        )}
+        {/* Ready */}
+        <div
+          className={`epsilon-boot-ready ${
+            progress >= 100 ? "visible" : ""
+          }`}
+        >
+          READY
+        </div>
       </div>
 
-      {/* Bottom status */}
-      <div className="epsilon-boot-footer">
-        EPSILON // COLLABORATIVE DEVELOPMENT ENVIRONMENT
+      {/* Bottom metadata */}
+      <div className="epsilon-boot-meta">
+        <span>EPSILON</span>
+        <span>
+          COLLABORATIVE DEVELOPMENT ENVIRONMENT
+        </span>
+        <span>V2.0</span>
       </div>
-
-      {/* Reduced motion / skip */}
-      <button
-        className="epsilon-skip"
-        onClick={() => setVisible(false)}
-        type="button"
-      >
-        SKIP
-      </button>
     </div>
   );
 }
