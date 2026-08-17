@@ -87,6 +87,61 @@ Instead of repeatedly sharing files or waiting for teammates to merge changes, c
 - Render
 
 ---
+## 👥 Team & Contributions
+
+EPSILON is a collaborative team project led by **A. Mohan Vamsi**, with each team member contributing to a different area of the project.
+
+### 👨‍💻 A. Mohan Vamsi
+**Team Lead · Lead Developer**
+
+- Led the overall project development and coordination.
+- Worked on the system architecture and core application development.
+- Implemented the real-time collaboration functionality.
+- Worked on AI-assisted development features.
+- Integrated the major frontend, backend and database components.
+- Handled deployment and overall project integration.
+
+### 👩‍💻 Sunaina Dhali
+**UI/UX & Frontend Contributor**
+
+- Contributed to the user interface and overall visual experience.
+- Worked on frontend components and layouts.
+- Focused on responsive design and usability.
+- Contributed to improving the overall look and feel of EPSILON.
+
+### 👩‍💻 Palak Mundane
+**Research & Database Contributor**
+
+- Contributed to technical research for the project.
+- Worked on database-related tasks and data handling.
+- Assisted with queries and application data requirements.
+- Contributed to project documentation and presentation preparation.
+
+### 👨‍💻 Omkar Sharma
+**Testing & Quality Contributor**
+
+- Tested different features of the application.
+- Identified and reported bugs and inconsistencies.
+- Performed usability and functional testing.
+- Helped validate the application before demonstrations and releases.
+
+### 👨‍💻 Aman Sareen
+**Product & Collaboration Contributor**
+
+- Contributed to feature planning and project discussions.
+- Worked on collaboration-related workflows and ideas.
+- Provided feedback on the user experience and functionality.
+- Assisted in refining features based on project requirements.
+
+---
+
+### 🤝 Team Collaboration
+
+The project was developed through collaboration between all five members, with responsibilities divided across **development, frontend/UI, research, testing and product planning**.
+
+> **One team. One workspace. One shared vision.**
+
+
 
 ## 🏗️ High-Level Architecture
 
@@ -110,3 +165,6 @@ Instead of repeatedly sharing files or waiting for teammates to merge changes, c
                        Supabase / PostgreSQL
                                │
                  Authentication + Persistence
+
+
+
